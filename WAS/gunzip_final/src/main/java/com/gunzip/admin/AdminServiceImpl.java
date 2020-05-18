@@ -9,10 +9,10 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	@Qualifier("admindao")
 	AdminDAO dao;
-	
-	
+		
 	@Override
 	public AdminDTO login(AdminDTO login) {
+		System.out.println(dao.login(login));
 		return dao.login(login);
 	}
 }

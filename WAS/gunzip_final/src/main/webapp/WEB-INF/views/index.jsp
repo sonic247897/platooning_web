@@ -6,20 +6,93 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>군집주행 final</title>
-  <!-- T-맵 -->
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>simpleMap</title>
+  	<!-- ajax -->
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  		<!-- T-맵 -->
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxc04b74e7bc0940dabf45e6cbfcd31748"></script>
         <script type="text/javascript">
 			function initTmap(){
 				var map = new Tmapv2.Map("map_div",  
 				{
-					center: new Tmapv2.LatLng(37.566481622437934,126.98502302169841), // 지도 초기 좌표
+					center: new Tmapv2.LatLng(37.57004566771894,126.97682516925155), // 지도 초기 좌표
 					width: "350px", 
 					height: "400px",
 					zoom: 15
 				});
-			} 
+			}
+			
+			// 2. 위치 조회
+			if(window.XMLHttpRequest){
+			xhttp=new XMLHttpRequest(); 
+			}else{
+			xhttp=new ActiveXObject("Microsoft.XMLDOM");
+			}
+		    /* deprecated 됨!! */  
+			xhttp.open("GET","/gunzip_final/kml/sample.kml", false);
+			xhttp.send();
+			var prtcl =  xhttp.responseXML;
+			var marker;
+			var beforeMarker;
+			var popup,popup2;
+			var beforePopup,beforePopup2;
+			var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String   
+			xmlDoc = $.parseXML( prtclString ),
+			$xml = $( xmlDoc ),
+			$intRate = $xml.find("Placemark");
+			myFunction(0);
+		   
+
+		// 3. 위치 관제 시작
+		var cnt = 1;
+		myVar = setInterval(function(){
+			RESET_MARKER();
+			var count = $xml.find("Placemark")[0].getElementsByTagName("coordinates").length;
+			console.log(count);
+			if(cnt == count){
+				cnt = 0;
+				RESET_MARKER(); //기존 마크지우기
+				RESET_MARKER2(); //이전 마크 지우기
+			}		
+			myFunction(cnt); 
+			cnt++;
+		}, 1000);
+		function RESET_MARKER(){
+		   for (var i = 0; i < markerList.length; i++) {
+		      if(undefined != markerList[i]){
+		         markerList[i].setMap(null);
+		         
+		         if(i == markerList.length-1){
+		            markerList = [];
+		         }
+		      }
+		    }
+		}
+		function RESET_MARKER2(){
+		   for (var i = 0; i < beforeMarkerList.length; i++) {
+		      if(undefined != beforeMarkerList[i]){
+		         beforeMarkerList[i].setMap(null);
+		         
+		         if(i == beforeMarkerList.length-1){
+		            beforeMarkerList = [];
+		         }
+		      }
+		    }
+		}
+		   
+
+		   // 4. 위치 관제 종료
+		   clearTimeout(myVar);
+		   markerList=[];
+		   RESET_MARKER2();
+		   var lastIndex = $intRate.find("coordinates").length-1;
+		   myFunction(lastIndex,checkLevel);
+		   
+		   var result ='총 거리 : 4.412km 총 소요시간 : 22분 '; 
+		   var resultDiv = document.getElementById("result");
+		   resultDiv.innerHTML = result;
+		   
+		</script>   
+		            
 		</script>
   
   <!-- Tell the browser to be responsive to screen width -->
@@ -780,7 +853,7 @@
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="/gunzip_final/roadDgdgr.do" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

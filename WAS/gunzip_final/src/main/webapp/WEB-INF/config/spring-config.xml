@@ -18,7 +18,7 @@
 	<resources mapping="/docs/**" location="/WEB-INF/static/docs/" />
 	<resources mapping="/pages/**" location="/WEB-INF/static/pages/" />
 	<resources mapping="/plugins/**" location="/WEB-INF/static/plugins/" />
-	<resources mapping="/views/**" location="/WEB-INF/views/" />
+	<resources mapping="/kml/**" location="/WEB-INF/static/kml/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

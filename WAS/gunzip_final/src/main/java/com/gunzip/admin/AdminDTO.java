@@ -1,7 +1,7 @@
 package com.gunzip.admin;
 
 public class AdminDTO {
-	private String userID;
+	private String id;
     private String password;
     private String token;
     
@@ -9,35 +9,35 @@ public class AdminDTO {
     	
     }
     
-	public AdminDTO(String userID) {
+	public AdminDTO(String id) {
 		super();
-		this.userID = userID;
+		this.id = id;
 	}
 
-	public AdminDTO(String userID, String password) {
+	public AdminDTO(String id, String password) {
 		super();
-		this.userID = userID;
+		this.id = id;
 		this.password = password;
 	}
 
-	public AdminDTO(String userID, String password, String token) {
+	public AdminDTO(String id, String password, String token) {
 		super();
-		this.userID = userID;
+		this.id = id;
 		this.password = password;
 		this.token = token;
 	}
 		
 	@Override
 	public String toString() {
-		return "AdminDTO [userID=" + userID + ", password=" + password + ", token=" + token + "]";
+		return "AdminDTO [id=" + id + ", password=" + password + ", token=" + token + "]";
 	}
 
-	public String getUserID() {
-		return userID;
+	public String getid() {
+		return id;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setid(String id) {
+		this.id = id;
 	}
 
 	public String getPassword() {

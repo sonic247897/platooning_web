@@ -5,6 +5,6 @@
   
 <mapper namespace="web.gunzip.admin">
   	<select id="login" resultType="admin" parameterType="member">
-  		select * from member where userID=#{userID} and password=#{password}
+  		select * from admin where id=#{id} and password=#{password}
   	</select>
 </mapper>

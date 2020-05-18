@@ -1,3 +1,7 @@
+-> `Servers` > `server.xml`에서 맨 밑에 \<Context path="/gunzip_final"/>로 바꾸기
+
+
+
 # 주제
 
 - 빅데이터 분석을 활용한 군집 주행 차량 제어
