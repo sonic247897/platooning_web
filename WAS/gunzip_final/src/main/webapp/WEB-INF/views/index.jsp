@@ -27,8 +27,8 @@
 			}else{
 			xhttp=new ActiveXObject("Microsoft.XMLDOM");
 			}
-		    /* deprecated 됨!! */  
-			xhttp.open("GET","/gunzip_final/kml/sample.kml", false);
+		      
+			xhttp.open("GET","/gunzip_final/kml/sample.kml",false);
 			xhttp.send();
 			var prtcl =  xhttp.responseXML;
 			var marker;
@@ -39,6 +39,56 @@
 			xmlDoc = $.parseXML( prtclString ),
 			$xml = $( xmlDoc ),
 			$intRate = $xml.find("Placemark");
+			
+			function myFunction(cnt, checkLevel){
+				    $intRate.each(function(index, element) {
+				       var name = element.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+				       var number = element.getElementsByTagName("number")[0].childNodes[0].nodeValue;
+				       var affiliation = element.getElementsByTagName("affiliation")[0].childNodes[0].nodeValue;
+				       var distance = element.getElementsByTagName("distance")[cnt].childNodes[0].nodeValue;
+				       var speed = element.getElementsByTagName("speed")[cnt].childNodes[0].nodeValue;
+				       var content = 
+				                '<div class="wrap">' + 
+				                   '    <div class="info">' + 
+				                   '        <div class="title">' + 
+				                   '            '+name + 
+				                   '        </div>' + 
+				                   '        <div class="body">' + 
+				                   '            <div class="desc">' + 
+				                   '                <div><span>차량번호</span> '+number+'</div>' +  
+				                   '                <div><span>소속지사</span> '+affiliation+'</div>' + 
+				                   '                <div><span>운행거리</span> '+distance+'km</div>' + 
+				                   '                <div><span>현재속도</span> '+speed+'km/h</div>' + 
+				                   '            </div>' + 
+				                   '        </div>' + 
+				                   '    </div>' +     
+				                   '</div>';
+				       
+				       //현재위치 바로 이전 위치를 그리기 위한 부분
+				       if(cnt > 0 && cnt >= 1 && cnt < 42 && checkLevel != 4){
+				          
+				          var beforePoint = element.getElementsByTagName("coordinates")[cnt-1].childNodes[0].nodeValue.split(',');
+				          var beforeIcon = '/resources/images/common/before_car.png';
+				          beforeMarker = new Tmapv2.Marker({
+				            position: new Tmapv2.LatLng(beforePoint[1]*=1,beforePoint[0]*= 1),
+				            icon: beforeIcon,
+				            map: map
+				         });
+				          beforeMarkerList.push(beforeMarker);
+				          
+				       }
+				       
+				      var point = element.getElementsByTagName("coordinates")[cnt].childNodes[0].nodeValue.split(',');
+				      var icons = '/resources/images/common/pin_car.png';
+				      marker = new Tmapv2.Marker({
+				            position: new Tmapv2.LatLng(point[1]*=1,point[0]*= 1),
+				            icon: icons,
+				            map: map
+				         });
+				          markerList.push(marker);
+				    });
+				}
+			
 			myFunction(0);
 		   
 
@@ -93,7 +143,6 @@
 		   
 		</script>   
 		            
-		</script>
   
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
