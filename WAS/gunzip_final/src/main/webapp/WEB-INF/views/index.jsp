@@ -1,3 +1,5 @@
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.net.URL"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -135,6 +137,36 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		      
 		       var point = element.getElementsByTagName("coordinates")[cnt].childNodes[0].nodeValue.split(',');
 		      var icons = '/gunzip_final/dist/img/pin_car.png';
+		      /* 위험도지수 ============================================================ */
+		      
+		      var xhr = new XMLHttpRequest();
+				var url = 'http://taas.koroad.or.kr/data/rest/road/dgdgr/link'; /*URL*/
+				var queryParams = '?' + encodeURIComponent('authKey') + '='+'m8TB0QAMdM9kk%2FoHCXWAWyyhky9e752kb2%2BQCkOjc0IpI7a2xO120kNaIYlMMYcF'; /*Service Key*/
+				//queryParams += '&' + encodeURIComponent('ServiceKey') + '=' + encodeURIComponent('ZtdZwa%2FHIEL1O0xwoQ96aLM9AQLpJfdqWxiNoEEbg8t4b3XyY5pqbmY5s864FPRt1WiarbQZ%2FTWr%2B5%2FQn3tCsyA%3D%3D'); /**/
+				queryParams += '&' + encodeURIComponent('searchLineString') + '=' + encodeURIComponent('LineString('+beforePoint[0]*1+' '+beforePoint[1]*1+', '+point[0]*1+' '+point[1]*1+')'); /**/
+				queryParams += '&' + encodeURIComponent('vhctyCd') + '=' + encodeURIComponent('03'); /**/
+				queryParams += '&' + encodeURIComponent('type') + '=' + encodeURIComponent('json'); /**/
+				/* queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+				//queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); 
+				xhr.open('GET', url + queryParams);
+				console.log(url + queryParams)
+				xhr.onreadystatechange = function () {
+				    if (this.readyState == 4) {
+				        alert('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
+				    	if(this.status==null){
+				    		alert('no status');
+				    	}
+				    	if(this.responseText==null){
+				    		alert('no response text');
+				    	}
+				    }
+				};
+				
+				xhr.send('');
+				
+				/* ======================================================================= */
+		      
+		      
 		      marker = new Tmapv2.Marker({
 		            position: new Tmapv2.LatLng(point[1]*=1,point[0]*= 1),
 		            icon: icons,
@@ -193,7 +225,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		         }
 		         myFunction(cnt);
 		         cnt++;
-		      }, 1000);
+		      }, 3000);
 			
 		   }
 		  
