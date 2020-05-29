@@ -47,7 +47,7 @@ public class HomeController {
 		/*// XML 문서 파싱
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		Document document = documentBuilder.parse("kml/sample.kml");
+		Document document = documentBuilder.parse("sample.kml");
 				
 		// root 구하기
 		Element root = document.getDocumentElement();
@@ -95,35 +95,17 @@ public class HomeController {
 	
 	
 	
-	// TODO: 현정=====================================================
-	
-	// Ajax로 계산한 도로위험도지수 데이터를 요청하는 메소드
-	//	=> 컨트롤러 메소드처럼 ModelAndView를 리턴하지 않고 일반 메소드처럼
-	//	  조회한 데이터를 ArrayList로 리턴하면 jackson라이브러리가 자동으로
-	//	 ArrayList<BoardVO>를 json으로 변환해서 리턴해준다.
-		
-	// ModelAndView를 리턴하면 DispatcherServlet이 페이지 위에서 아래부터 로딩
-	// ResponseBody를 명시한 ArrayList를 json형식으로 일부만 로딩해줌
-	// (나머지는 같고 '컨트롤러 단'과 '뷰의 요청, 출력 부분'만 바꿔주면 된다)
-	int idx =0;
-	
-	@RequestMapping(value="/score/danger_score.do",
-				method=RequestMethod.GET,
-				produces="application/json;charset=utf-8") //json으로 변환해달라
-	public @ResponseBody String dangerScore(String category) {
-			// XML 읽어서 리스트에 저장하고 jsp에서 dangerScore 요청할 때마다
-			// score = getResponseMessage(), 배열 idx++ [static 변수? 모듈러 연산 해줘야함]
-			// 그러면 3초 sleep 안해줘도 됨
-			String score = "";
-			//score =  
-			
-			
-			++idx;
-			idx  = idx % 15;
-			
-			return score;
-		}
+	// TODO: 현정 ============================================================
 
+	
+	@RequestMapping(value="/web/score.do",
+			method=RequestMethod.GET,
+			produces="application/json;charset=utf-8") //json으로 변환해달라
+	public @ResponseBody String dangerScore(String beforePoint0, String beforePoint1, String point0, String point1) {
+		String score = ApiExplorer.readJson(beforePoint0, beforePoint1, point0, point1);
+		System.out.println("위험도지수: "+score);
+		return score;
+	}
 	
 	
 	@RequestMapping(value = "/speed.do", method = RequestMethod.GET)

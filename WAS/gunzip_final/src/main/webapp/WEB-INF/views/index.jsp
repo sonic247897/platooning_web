@@ -1,3 +1,4 @@
+<%@page import="com.gunzip.mandooweb.ApiExplorer"%>
 <%@page import="java.io.BufferedReader"%>
 <%@page import="java.net.URL"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -34,6 +35,10 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		}
 	</style>
     <script type="text/javascript">
+    	
+    
+    
+    
 		
     	$(function() {
 		   initTmap();
@@ -139,15 +144,17 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		      var icons = '/gunzip_final/dist/img/pin_car.png';
 		      /* 위험도지수 ============================================================ */
 		      
-		      var xhr = new XMLHttpRequest();
-				var url = 'http://taas.koroad.or.kr/data/rest/road/dgdgr/link'; /*URL*/
-				var queryParams = '?' + encodeURIComponent('authKey') + '='+'m8TB0QAMdM9kk%2FoHCXWAWyyhky9e752kb2%2BQCkOjc0IpI7a2xO120kNaIYlMMYcF'; /*Service Key*/
-				//queryParams += '&' + encodeURIComponent('ServiceKey') + '=' + encodeURIComponent('ZtdZwa%2FHIEL1O0xwoQ96aLM9AQLpJfdqWxiNoEEbg8t4b3XyY5pqbmY5s864FPRt1WiarbQZ%2FTWr%2B5%2FQn3tCsyA%3D%3D'); /**/
-				queryParams += '&' + encodeURIComponent('searchLineString') + '=' + encodeURIComponent('LineString('+beforePoint[0]*1+' '+beforePoint[1]*1+', '+point[0]*1+' '+point[1]*1+')'); /**/
-				queryParams += '&' + encodeURIComponent('vhctyCd') + '=' + encodeURIComponent('03'); /**/
-				queryParams += '&' + encodeURIComponent('type') + '=' + encodeURIComponent('json'); /**/
-				/* queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
-				//queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); 
+		      <%-- var result_ = <% ApiExplorer.readJson(%> beforePoint[0]*1<%) %>
+		      alert(result); --%>
+		      
+		      /* var xhr = new XMLHttpRequest();
+				var url = 'http://taas.koroad.or.kr/data/rest/road/dgdgr/link'; 
+				var queryParams = '?' + encodeURIComponent('authKey') + '='+'m8TB0QAMdM9kk%2FoHCXWAWyyhky9e752kb2%2BQCkOjc0IpI7a2xO120kNaIYlMMYcF'; 
+				//queryParams += '&' + encodeURIComponent('ServiceKey') + '=' + encodeURIComponent('ZtdZwa%2FHIEL1O0xwoQ96aLM9AQLpJfdqWxiNoEEbg8t4b3XyY5pqbmY5s864FPRt1WiarbQZ%2FTWr%2B5%2FQn3tCsyA%3D%3D'); 
+				queryParams += '&' + encodeURIComponent('searchLineString') + '=' + encodeURIComponent('LineString('+beforePoint[0]*1+' '+beforePoint[1]*1+', '+point[0]*1+' '+point[1]*1+')');
+				queryParams += '&' + encodeURIComponent('vhctyCd') + '=' + encodeURIComponent('03'); 
+				queryParams += '&' + encodeURIComponent('type') + '=' + encodeURIComponent('json'); 
+				
 				xhr.open('GET', url + queryParams);
 				console.log(url + queryParams)
 				xhr.onreadystatechange = function () {
@@ -162,7 +169,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 				    }
 				};
 				
-				xhr.send('');
+				xhr.send(''); */
 				
 				/* ======================================================================= */
 		      
@@ -1032,42 +1039,61 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
           <!-- Left col -->
           <section class="col-lg-7 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header">
+            <!-- solid sales graph -->
+            <div class="card bg-gradient-info">
+              <div class="card-header border-0">
                 <h3 class="card-title">
-                  <i class="fas fa-chart-pie mr-1"></i>
+                  <i class="fas fa-th mr-1"></i>
                   	위치기반 교통사고위험지수
                 </h3>
+
                 <div class="card-tools">
-                  <ul class="nav nav-pills ml-auto">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                    </li>
-                  </ul>
+                  <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
                 </div>
-              </div><!-- /.card-header -->
+              </div>
               <div class="card-body">
-                <div class="tab-content p-0">
-                  <!-- Morris chart - Sales -->
-                  <div class="chart tab-pane active" id="revenue-chart"
-                       style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>                         
-                   </div>
-                  <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                    <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>                         
-                  </div>  
+                <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer bg-transparent">
+                <div class="row">
+                  <div class="col-4 text-center">
+                    <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
+                           data-fgColor="#39CCCC">
+
+                    <div class="text-white">Mail-Orders</div>
+                  </div>
+                  <!-- ./col -->
+                  <div class="col-4 text-center">
+                    <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
+                           data-fgColor="#39CCCC">
+
+                    <div class="text-white">Online</div>
+                  </div>
+                  <!-- ./col -->
+                  <div class="col-4 text-center">
+                    <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
+                           data-fgColor="#39CCCC">
+
+                    <div class="text-white">In-Store</div>
+                  </div>
+                  <!-- ./col -->
                 </div>
-              </div><!-- /.card-body -->
+                <!-- /.row -->
+              </div>
+              <!-- /.card-footer -->
             </div>
             <!-- /.card -->
 
             <!-- DIRECT CHAT -->
             <div class="card direct-chat direct-chat-primary">
               <div class="card-header">
-                <h3 class="card-title">실시간 로그</h3>
+                <h3 class="card-title">차량 정보</h3>
 
                 <div class="card-tools">
                   <span data-toggle="tooltip" title="3 New Messages" class="badge badge-primary">3</span>
@@ -1095,59 +1121,45 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
                     <img class="direct-chat-img" src="/gunzip_final/dist/img/user1-128x128.jpg" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
-                      ID번호+로그 내용
+                      	차량1
                     </div>
                     <!-- /.direct-chat-text -->
                   </div>
                   <!-- /.direct-chat-msg -->
-
-                  <!-- Message to the right -->
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-infos clearfix">
-                      <span class="direct-chat-name float-right">Sarah Bullock</span>
-                      <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="/gunzip_final/dist/img/user3-128x128.jpg" alt="message user image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      	각 군집주행 차량 클러스터를 ID번호로 구별
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <!-- /.direct-chat-msg -->
-
-                  <!-- Message. Default to the left -->
+				<!-- Message. Default to the left -->
                   <div class="direct-chat-msg">
                     <div class="direct-chat-infos clearfix">
                       <span class="direct-chat-name float-left">Alexander Pierce</span>
-                      <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
+                      <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
                     <img class="direct-chat-img" src="/gunzip_final/dist/img/user1-128x128.jpg" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
-                      Working with AdminLTE on a great new app! Wanna join?
+                      	차량2
+                    </div>
+                    <!-- /.direct-chat-text -->
+                  </div>
+                  <!-- /.direct-chat-msg -->
+                
+
+                  <!-- Message. Default to the left -->
+                  <div class="direct-chat-msg">
+                    <div class="direct-chat-infos clearfix">
+                      <span class="direct-chat-name float-left">Alexander Pierce</span>
+                      <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                    </div>
+                    <!-- /.direct-chat-infos -->
+                    <img class="direct-chat-img" src="/gunzip_final/dist/img/user1-128x128.jpg" alt="message user image">
+                    <!-- /.direct-chat-img -->
+                    <div class="direct-chat-text">
+                      	차량3
                     </div>
                     <!-- /.direct-chat-text -->
                   </div>
                   <!-- /.direct-chat-msg -->
 
-                  <!-- Message to the right -->
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-infos clearfix">
-                      <span class="direct-chat-name float-right">Sarah Bullock</span>
-                      <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="/gunzip_final/dist/img/user3-128x128.jpg" alt="message user image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      I would love to.
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <!-- /.direct-chat-msg -->
+            
 
                 </div>
                 <!--/.direct-chat-messages-->
@@ -1251,17 +1263,6 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
                 <!-- /.direct-chat-pane -->
               </div>
               <!-- /.card-body -->
-              <div class="card-footer">
-                <form action="#" method="post">
-                  <div class="input-group">
-                    <input type="text" name="message" placeholder="Type Message ..." class="form-control">
-                    <span class="input-group-append">
-                      <button type="button" class="btn btn-primary">Send</button>
-                    </span>
-                  </div>
-                </form>
-              </div>
-              <!-- /.card-footer-->
             </div>
             <!--/.direct-chat -->
 
@@ -1270,7 +1271,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="ion ion-clipboard mr-1"></i>
-                  전송할 메시지??
+                  전송할 메시지
                 </h3>
 
                 <div class="card-tools">
@@ -1432,21 +1433,20 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
               </div>
               <!-- /.card-body-->
               <div class="card-footer bg-transparent"> 
-              <a href="/gunzip_final/map.do">관제 페이지</a>
                 <div class="row">
                   <div class="col-4 text-center">
                     <div id="sparkline-1"></div>
-                    <div class="text-white">Visitors</div>
+                    <div class="text-white">차량1</div>
                   </div>
                   <!-- ./col -->
                   <div class="col-4 text-center">
                     <div id="sparkline-2"></div>
-                    <div class="text-white">Online</div>
+                    <div class="text-white">차량2</div>
                   </div>
                   <!-- ./col -->
                   <div class="col-4 text-center">
                     <div id="sparkline-3"></div>
-                    <div class="text-white">Sales</div>
+                    <div class="text-white">차량3</div>
                   </div>
                   <!-- ./col -->
                 </div>
@@ -1455,56 +1455,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             </div>
             <!-- /.card -->
 
-            <!-- solid sales graph -->
-            <div class="card bg-gradient-info">
-              <div class="card-header border-0">
-                <h3 class="card-title">
-                  <i class="fas fa-th mr-1"></i>
-                  Sales Graph
-                </h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer bg-transparent">
-                <div class="row">
-                  <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">Mail-Orders</div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">Online</div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">In-Store</div>
-                  </div>
-                  <!-- ./col -->
-                </div>
-                <!-- /.row -->
-              </div>
-              <!-- /.card-footer -->
-            </div>
-            <!-- /.card -->
+            
 
             
             <!-- /.card -->
