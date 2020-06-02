@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document>
+	<name>Tmap Position Control Sample</name>
+	<Placemark>
+		<name>홍길동[1234]</name>
+		<number>12가 9876</number>
+		<affiliation>수도권 동부</affiliation>
+		<Point>
+			
+			<coordinates>128.4550672,35.9571106</coordinates>
+			<distance>5</distance>
+			<speed>100</speed>
+			
+			<coordinates>128.4547668,35.9588822</coordinates>
+			<distance>5</distance>
+			<speed>100</speed>
+			
+			
+			
+			<coordinates>128.4543806,35.9608622</coordinates>
+			<distance>1.5</distance>
+			<speed>70</speed>
+			
+			<coordinates>128.4536081,35.9633979</coordinates>
+			<distance>2</distance>
+			<speed>68</speed>
+			
+			
+
+			<coordinates>128.4525781,35.9653431</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>128.4507757,35.9666977</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			
+			
+			
+			<coordinates>128.4494453,35.9674618</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>128.4475141,35.968608</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			
+			
+			<coordinates>128.4450679,35.9698236
+			</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0427781, 37.4446135</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0426567, 37.4459627</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0414353, 37.4595388</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.042315, 37.4583635</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0436924, 37.4581602</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0418577, 37.4564952</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			
+			
+		</Point>
+	</Placemark>
+	
+</Document>
+</kml>

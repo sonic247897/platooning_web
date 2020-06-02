@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document>
+	<name>Tmap Position Control Sample</name>
+	<Placemark>
+		<name>홍길동[1234]</name>
+		<number>12가 9876</number>
+		<affiliation>수도권 동부</affiliation>
+		<Point>
+			
+			<coordinates>127.04690032797895,37.456266709173164</coordinates>
+			<distance>5</distance>
+			<speed>100</speed>
+			
+			<coordinates>127.04554136681412,37.457707522743924</coordinates>
+			<distance>5</distance>
+			<speed>100</speed>
+			
+			
+			
+			<coordinates>127.04554136681412,37.457707522743924</coordinates>
+			<distance>1.5</distance>
+			<speed>70</speed>
+			
+			<coordinates>127.04412400143637,37.459197277700852</coordinates>
+			<distance>2</distance>
+			<speed>68</speed>
+			
+			
+
+			<coordinates>127.04412400143637,37.459197277700852</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.04275740594987,37.460633596876676</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			
+			
+			
+			<coordinates>127.0554853,37.4449779</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0554853,37.4449779</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			
+			
+			<coordinates>127.0538391,37.4467427</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0521549,37.4468722</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0426567,37.4459627</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0414353,37.4595388</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.042315,37.4583635</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0436924,37.4581602</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			<coordinates>127.0418577,37.4564952</coordinates>
+			<distance>3</distance>
+			<speed>65</speed>
+			
+			
+			
+		</Point>
+	</Placemark>
+	
+</Document>
+</kml>
