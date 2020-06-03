@@ -79,6 +79,79 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     function clock() {
     	$("#clock").text(new Date().toString().substring(0,24));
     }
+    
+    function reverseGeo(lon, lat) {
+		$.ajax({
+			method : "GET",
+			url : "https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=1&format=json&callback=result",
+			async : false,
+			data : {
+				"appKey" : "l7xxc04b74e7bc0940dabf45e6cbfcd31748",
+				"coordType" : "WGS84GEO",
+				"addressType" : "A10",
+				"lon" : lon,
+				"lat" : lat
+			},
+			success : function(response) {
+				// 3. json에서 주소 파싱
+				var arrResult = response.addressInfo;
+
+				//법정동 마지막 문자 
+				var lastLegal = arrResult.legalDong
+						.charAt(arrResult.legalDong.length - 1);
+
+				// 새주소
+				newRoadAddr = arrResult.city_do + ' '
+						+ arrResult.gu_gun + ' ';
+
+				if (arrResult.eup_myun == ''
+						&& (lastLegal == "읍" || lastLegal == "면")) {//읍면
+					newRoadAddr += arrResult.legalDong;
+				} else {
+					newRoadAddr += arrResult.eup_myun;
+				}
+				newRoadAddr += ' ' + arrResult.roadName + ' '
+						+ arrResult.buildingIndex;
+
+				// 새주소 법정동& 건물명 체크
+				if (arrResult.legalDong != ''
+						&& (lastLegal != "읍" && lastLegal != "면")) {//법정동과 읍면이 같은 경우
+
+					if (arrResult.buildingName != '') {//빌딩명 존재하는 경우
+						newRoadAddr += (' (' + arrResult.legalDong
+								+ ', ' + arrResult.buildingName + ') ');
+					} else {
+						newRoadAddr += (' (' + arrResult.legalDong + ')');
+					}
+				} else if (arrResult.buildingName != '') {//빌딩명만 존재하는 경우
+					newRoadAddr += (' (' + arrResult.buildingName + ') ');
+				}
+
+				/* // 구주소
+				jibunAddr = arrResult.city_do + ' '
+						+ arrResult.gu_gun + ' '
+						+ arrResult.legalDong + ' ' + arrResult.ri
+						+ ' ' + arrResult.bunji;
+				//구주소 빌딩명 존재
+				if (arrResult.buildingName != '') {//빌딩명만 존재하는 경우
+					jibunAddr += (' ' + arrResult.buildingName);
+				} */
+
+				result = newRoadAddr;
+
+				var resultDiv = document.getElementById("address");
+				resultDiv.innerHTML = result;
+
+			},
+			error : function(request, status, error) {
+				console.log("code:" + request.status + "\n"
+						+ "message:" + request.responseText + "\n"
+						+ "error:" + error);
+			}
+		});
+
+	}
+
 
 
 
@@ -155,14 +228,14 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     			            },
     			            subtitle: {
     			                text: document.ontouchstart === undefined ?
-    			                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+    			                    '(화물차 | 고속도로)' : 'Pinch the chart to zoom in'
     			            },
     			            xAxis: {
     			                type: '도로위험도지수'
     			            },
     			            yAxis: {
     			                title: {
-    			                    text: '시간'
+    			                    text: '위험도지수'
     			                }
     			            },
     			            legend: {
@@ -222,14 +295,14 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	            },
 	            subtitle: {
 	                text: document.ontouchstart === undefined ?
-	                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+	                    '(화물차 | 고속도로)' : 'Pinch the chart to zoom in'
 	            },
 	            xAxis: {
 	                type: '도로위험도지수'
 	            },
 	            yAxis: {
 	                title: {
-	                    text: '시간'
+	                    text: '위험도지수'
 	                }
 	            },
 	            legend: {
@@ -286,7 +359,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		  
 		    // 1. 지도 띄우기
 		   map = new Tmapv2.Map("map_div", {
-		      center: new Tmapv2.LatLng(37.57004566771894,126.97682516925155),
+		      center: new Tmapv2.LatLng(37.501311,127.037471),
 		      width: "100%",
 		      height: "400px"
 		   });
@@ -371,7 +444,8 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		      /* 위험도지수 ============================================================ */
 		      if(checkLevel != 4 && cnt > 0){
 		       ajax(beforePoint[0]*1, beforePoint[1]*1, point[0]*1, point[1]*1);
-		      
+		      	/* reverse GEO =====================================================================  */
+		      	reverseGeo(point[0]*1, point[1]*1);
 		      }
 		      
 		      marker = new Tmapv2.Marker({
@@ -392,6 +466,11 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		
 		   //위치 관제 시작을 선택했을 경우
 		   if(checkLevel==3){
+			   RESET_MARKER();
+			   var result ='관제 시작'; 
+			   var resultDiv = document.getElementById("result");
+			   resultDiv.innerHTML = result;
+			   
 			  
 			   if(window.XMLHttpRequest){
 					xhttp=new XMLHttpRequest();
@@ -418,12 +497,15 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		      var resultDiv = document.getElementById("result");
 		      resultDiv.innerHTML = result;
 		    
-		     
+		
+		      
 		      // 3. 위치 관제 시작
 		      var cnt = 1;
+		      
 		      myVar = setInterval(function(){
 		         //markerLayer.clearMarkers();
 		         RESET_MARKER();
+		         
 		         var count = $xml.find("Placemark")[0].getElementsByTagName("coordinates").length;
 		         console.log(count);
 		         if(cnt == count){
@@ -442,10 +524,13 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		   
 		   if(checkLevel==4||checkLevel>=4){
 			   clearTimeout(myVar);
-			   markerList=[];
+			   //markerList=[];
 			   RESET_MARKER2();
-			   var lastIndex = $intRate.find("coordinates").length-1;
-			   myFunction(lastIndex,checkLevel);
+			   // 마커 삭제
+			   //markerLayer.clearMarkers();
+			   
+			   //var lastIndex = $intRate.find("coordinates").length-1;
+			   //myFunction(lastIndex,checkLevel);
 			   
 			   var result ='관제 종료'; 
 			   var resultDiv = document.getElementById("result");
@@ -722,8 +807,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>현재 위치</h3>
-
+                <h4 id="address"><b>현재 위치</b></h4>
                 <h4 id="clock">00:00</h4>
               </div>
               <div class="icon">
@@ -1026,13 +1110,13 @@ src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
                   <!-- ./col -->
                   <div class="col-4 text-center">
                     <div id="sparkline-3"></div>
-                    <input type="button" value = "시뮬레이션3" onclick="changeLoad(3,'');">
+                    <input type="button" value = "시뮬레이션3" onclick="changeLoad(3,'sample3.kml');">
                   </div>
                   <!-- ./col -->
                 </div>
                 <!-- /.row -->
                 <div class="row">
-                	<input type="button" value = "중지" onclick="changeLoad(4,'');">
+                	<input type="button" value = "중지" style="background-color:#F8BEBE" onclick="changeLoad(4,'');">
                 </div>
             
               </div>

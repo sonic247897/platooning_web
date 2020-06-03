@@ -14,7 +14,7 @@ public class FCMController {
 	
 	
 	// 태블릿 키 저장
-	@RequestMapping(value = "/fcm/fcm_check", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/fcm/fcm_check", method = RequestMethod.GET)
 	public String getToken(String token) {
 		int result = service.getToken(token);
 		if(result==1) {
@@ -22,7 +22,7 @@ public class FCMController {
 		}
 		return "redirect:/index.do";
 	}
-	
+	*/
 	
 }
 

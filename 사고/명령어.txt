@@ -1,0 +1,68 @@
+﻿import pandas as pd
+data = pd.read_csv("./accident_hwamul.csv")
+print(data)
+
+print("원본 특성:\n", list(data.columns), "\n")
+data_dummies = pd.get_dummies(data)
+print("get_dummies 후의 특성:\n", list(data_dummies.columns))
+
+display(data_dummies.head())
+
+features = data_dummies.loc[:, ['기상상태_눈', '기상상태_맑음/흐림', '기상상태_비', '기상상태_안개', '시간대_야간', '시간대_주간']]
+
+X = features.values
+y = data_dummies['도로위험도'].values
+
+print("X.shape: {} y.shape: {}".format(X.shape, y.shape))
+
+
+
+
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+mlr = LinearRegression()
+mlr.fit(X_train, y_train)
+
+print("mlr.coef_", mlr.coef_)
+print("mlr.intercept_", mlr.intercept_)
+
+print("훈련 세트 점수: {:.2f}".format(mlr.score(X_train, y_train)))
+
+print("테스트 세트 점수: {:.2f}".format(mlr.score(X_test, y_test)))
+
+
+
+
+y_predicted = mlr.predict(X_test)
+import matplotlib.pyplot as plt
+plt.scatter(y_test, y_predicted, alpha=1.0)
+plt.xlabel("Actual point")
+plt.ylabel("Predicted point")
+plt.title("MULTIPLE LINEAR REGRESSION")
+plt.show()
+
+
+
+'기상상태_맑음/흐림', '시간대_야간', '시간대_주간'
+
+
+
+
+
+1) 1년 단위로 계산해야 한다. 매년 사망률이 줄어들었기 때문
+(지난 10년간 총 35.6% 감소)
+
+2) outliter들을 제거할 때 내가 쓸 수 있는 방법: adhoc방법
+-> 하나씩 제일 큰거부터 제거하면서 적합도 0.65~0.70이상이면 통과하게
+
+	=> 안나옴. 평균으로 구해야함!
+outlier들이 문제가 아님. 변수가 3개밖에 없는데 
+같은 조건에 (맑음/흐림, 주간) 0.0033이 25개
+			0.0066이 8개
+			0.0068이 276개
+~ 3이 1개  까지  매우 많음
+
+

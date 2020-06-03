@@ -271,6 +271,12 @@
             <param-value>false</param-value>
         </init-param>
         <load-on-startup>3</load-on-startup>
+        
+        <init-param>
+        	<param-name>mappedfile</param-name>
+        	<param-value>false</param-value>
+        </init-param>
+        
     </servlet>
 
 
