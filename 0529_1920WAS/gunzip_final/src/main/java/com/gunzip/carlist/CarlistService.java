@@ -1,9 +1,0 @@
-package com.gunzip.carlist;
-
-import java.util.List;
-
-public interface CarlistService {
-	List<CarlistDTO> carlist(CarlistDTO dto);
-	void attachCar(CarlistDTO dto);
-	void detachCar(String userid);
-}
